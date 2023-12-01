@@ -1,0 +1,86 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2009.vpi";
+S_000001ff61ad2830 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_000001ff61ad29c0 .scope module, "write_back_stage" "write_back_stage" 3 1;
+ .timescale 0 0;
+    .port_info 0 /INPUT 32 "pc_next_wb";
+    .port_info 1 /INPUT 32 "DM_data_rd_wb";
+    .port_info 2 /INPUT 32 "ALU_res_wb";
+    .port_info 3 /INPUT 5 "rd_wb";
+    .port_info 4 /INPUT 2 "RU_DM_write_src_wb";
+    .port_info 5 /INPUT 1 "clk_wb";
+    .port_info 6 /INPUT 1 "RUwrite_wb";
+    .port_info 7 /OUTPUT 32 "RU_data_write_wb";
+    .port_info 8 /OUTPUT 5 "ru_rd_wb";
+    .port_info 9 /OUTPUT 1 "RU_write_enable_wb";
+P_000001ff61c38b40 .param/l "ALU_RES" 0 3 16, C4<00>;
+P_000001ff61c38b78 .param/l "DM_READ" 0 3 15, C4<01>;
+P_000001ff61c38bb0 .param/l "NEXT_PC" 0 3 14, C4<10>;
+o000001ff61b070c8 .functor BUFZ 1, C4<z>; HiZ drive
+L_000001ff61c38bf0 .functor BUFZ 1, o000001ff61b070c8, C4<0>, C4<0>, C4<0>;
+o000001ff61b07158 .functor BUFZ 5, C4<zzzzz>; HiZ drive
+L_000001ff61ad3390 .functor BUFZ 5, o000001ff61b07158, C4<00000>, C4<00000>, C4<00000>;
+o000001ff61b06fd8 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001ff61ad2c00_0 .net "ALU_res_wb", 31 0, o000001ff61b06fd8;  0 drivers
+o000001ff61b07008 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001ff61c3b810_0 .net "DM_data_rd_wb", 31 0, o000001ff61b07008;  0 drivers
+o000001ff61b07038 .functor BUFZ 2, C4<zz>; HiZ drive
+v000001ff61c3b8b0_0 .net "RU_DM_write_src_wb", 1 0, o000001ff61b07038;  0 drivers
+v000001ff61c3b950_0 .var "RU_data_write_wb", 31 0;
+v000001ff61c3b9f0_0 .net "RU_write_enable_wb", 0 0, L_000001ff61c38bf0;  1 drivers
+v000001ff61c3ba90_0 .net "RUwrite_wb", 0 0, o000001ff61b070c8;  0 drivers
+o000001ff61b070f8 .functor BUFZ 1, C4<z>; HiZ drive
+v000001ff61c3bb30_0 .net "clk_wb", 0 0, o000001ff61b070f8;  0 drivers
+o000001ff61b07128 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001ff61c3bbd0_0 .net "pc_next_wb", 31 0, o000001ff61b07128;  0 drivers
+v000001ff61c3bc70_0 .net "rd_wb", 4 0, o000001ff61b07158;  0 drivers
+v000001ff61c3bda0_0 .net "ru_rd_wb", 4 0, L_000001ff61ad3390;  1 drivers
+E_000001ff61c3ca90 .event posedge, v000001ff61c3bb30_0;
+    .scope S_000001ff61ad29c0;
+T_0 ;
+    %wait E_000001ff61c3ca90;
+    %load/vec4 v000001ff61c3b8b0_0;
+    %dup/vec4;
+    %pushi/vec4 2, 0, 2;
+    %cmp/u;
+    %jmp/1 T_0.0, 6;
+    %dup/vec4;
+    %pushi/vec4 1, 0, 2;
+    %cmp/u;
+    %jmp/1 T_0.1, 6;
+    %dup/vec4;
+    %pushi/vec4 0, 0, 2;
+    %cmp/u;
+    %jmp/1 T_0.2, 6;
+    %jmp T_0.3;
+T_0.0 ;
+    %load/vec4 v000001ff61c3bbd0_0;
+    %store/vec4 v000001ff61c3b950_0, 0, 32;
+    %jmp T_0.3;
+T_0.1 ;
+    %load/vec4 v000001ff61c3b810_0;
+    %store/vec4 v000001ff61c3b950_0, 0, 32;
+    %jmp T_0.3;
+T_0.2 ;
+    %load/vec4 v000001ff61ad2c00_0;
+    %store/vec4 v000001ff61c3b950_0, 0, 32;
+    %jmp T_0.3;
+T_0.3 ;
+    %pop/vec4 1;
+    %jmp T_0;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "write_back.sv";

@@ -1,0 +1,79 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2009.vpi";
+S_0000022cf9ae2c40 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0000022cf9ae2dd0 .scope module, "hdu" "hdu" 3 1;
+ .timescale 0 0;
+    .port_info 0 /INPUT 5 "rs1_de";
+    .port_info 1 /INPUT 5 "rs2_de";
+    .port_info 2 /INPUT 5 "rd_ex";
+    .port_info 3 /INPUT 1 "DMRd_ex";
+    .port_info 4 /OUTPUT 1 "clr";
+    .port_info 5 /OUTPUT 1 "pc_inc_de";
+    .port_info 6 /OUTPUT 1 "pc_fe";
+o0000022cf9b16fd8 .functor BUFZ 1, C4<z>; HiZ drive
+v0000022cf9ae3300_0 .net "DMRd_ex", 0 0, o0000022cf9b16fd8;  0 drivers
+v0000022cf999b9b0_0 .var "clr", 0 0;
+v0000022cf999ba50_0 .var "pc_fe", 0 0;
+v0000022cf999baf0_0 .var "pc_inc_de", 0 0;
+o0000022cf9b17098 .functor BUFZ 5, C4<zzzzz>; HiZ drive
+v0000022cf999bb90_0 .net "rd_ex", 4 0, o0000022cf9b17098;  0 drivers
+o0000022cf9b170c8 .functor BUFZ 5, C4<zzzzz>; HiZ drive
+v0000022cf999bc30_0 .net "rs1_de", 4 0, o0000022cf9b170c8;  0 drivers
+o0000022cf9b170f8 .functor BUFZ 5, C4<zzzzz>; HiZ drive
+v0000022cf999bcd0_0 .net "rs2_de", 4 0, o0000022cf9b170f8;  0 drivers
+E_0000022cf999c600 .event anyedge, v0000022cf9ae3300_0, v0000022cf999bc30_0, v0000022cf999bb90_0, v0000022cf999bcd0_0;
+    .scope S_0000022cf9ae2dd0;
+T_0 ;
+Ewait_0 .event/or E_0000022cf999c600, E_0x0;
+    %wait Ewait_0;
+    %load/vec4 v0000022cf9ae3300_0;
+    %flag_set/vec4 9;
+    %flag_get/vec4 9;
+    %jmp/0 T_0.2, 9;
+    %load/vec4 v0000022cf999bc30_0;
+    %load/vec4 v0000022cf999bb90_0;
+    %cmp/e;
+    %flag_get/vec4 4;
+    %jmp/1 T_0.3, 4;
+    %load/vec4 v0000022cf999bcd0_0;
+    %load/vec4 v0000022cf999bb90_0;
+    %cmp/e;
+    %flag_get/vec4 4;
+    %or;
+T_0.3;
+    %and;
+T_0.2;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0000022cf999b9b0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000022cf999baf0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000022cf999ba50_0, 0, 1;
+    %jmp T_0.1;
+T_0.0 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000022cf999b9b0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0000022cf999baf0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0000022cf999ba50_0, 0, 1;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0, $push;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "hdu.sv";
